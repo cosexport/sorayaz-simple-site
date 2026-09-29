@@ -738,6 +738,19 @@
       .hero-btns { flex-direction: column; align-items: center; }
     }
   </style>
+  <!-- Google Ads – Conversion "Contact" (clic WhatsApp uniquement) -->
+  <script>
+  function gtag_report_conversion(url) {
+    var callback = function () {
+      if (typeof(url) !== 'undefined') { window.location = url; }
+    };
+    gtag('event', 'conversion', {
+      'send_to': 'AW-18470623560/0kp2COvkiYsdEMiyvedE',
+      'event_callback': callback
+    });
+    return false;
+  }
+  </script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18470623560"></script>
   <script>
@@ -1048,7 +1061,7 @@
         </div>
         <p class="tc-price-note"><span data-fr>≈ 32€ · Matériaux inclus</span><span data-en>≈ $35 USD · Materials included</span></p>
 
-        <a href="https://wa.me/212702008334?text=Bonjour%2C%20je%20voudrais%20r%C3%A9server%20le%20programme%20touristes%20%E2%9C%A6" target="_blank" class="btn-teal" style="width:100%;text-align:center;display:block;">
+        <a href="https://wa.me/212702008334?text=Bonjour%2C%20je%20voudrais%20r%C3%A9server%20le%20programme%20touristes%20%E2%9C%A6" target="_blank" class="btn-teal" style="width:100%;text-align:center;display:block;" onclick="gtag_report_conversion(this.href); return false;">
           <span data-fr>Réserver via WhatsApp</span>
           <span data-en>Book via WhatsApp</span>
         </a>
@@ -1194,7 +1207,7 @@
             <div class="contact-item-icon">📞</div>
             <div>
               <p class="contact-item-label">WhatsApp</p>
-              <a href="https://wa.me/212702008334" target="_blank" class="contact-item-val">+212 7 02 00 83 34</a>
+              <a href="https://wa.me/212702008334" target="_blank" class="contact-item-val" onclick="gtag_report_conversion(this.href); return false;">+212 7 02 00 83 34</a>
             </div>
           </div>
           <div class="contact-item">
@@ -1326,7 +1339,7 @@
     <div>
       <span class="footer-col-title">Contact</span>
       <div class="footer-contact-items">
-        <div class="footer-contact-item">📞 <a href="https://wa.me/212702008334" target="_blank">+212 7 02 00 83 34</a></div>
+        <div class="footer-contact-item">📞 <a href="https://wa.me/212702008334" target="_blank" onclick="gtag_report_conversion(this.href); return false;">+212 7 02 00 83 34</a></div>
         <div class="footer-contact-item">✉️ <a href="mailto:contact@sorayazworkshops.com">contact@sorayazworkshops.com</a></div>
         <div class="footer-contact-item">📍 <span>Casablanca, Maroc</span></div>
       </div>
@@ -1337,7 +1350,7 @@
   <div class="footer-bottom">
     <span>© 2026 Sorayaz Workshops. <span data-fr>Tous droits réservés.</span><span data-en>All rights reserved.</span></span>
     <div style="display:flex;gap:1rem;align-items:center">
-      <a href="https://wa.me/212702008334" target="_blank" style="color:rgba(255,255,255,0.35);text-decoration:none;font-size:0.75rem;transition:color .2s;" onmouseover="this.style.color='#25D366'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">WhatsApp</a>
+      <a href="https://wa.me/212702008334" target="_blank" style="color:rgba(255,255,255,0.35);text-decoration:none;font-size:0.75rem;transition:color .2s;" onmouseover="this.style.color='#25D366'" onmouseout="this.style.color='rgba(255,255,255,0.35)'" onclick="gtag_report_conversion(this.href); return false;">WhatsApp</a>
       <a href="https://www.instagram.com/sorayaz_workshops/" target="_blank" style="color:rgba(255,255,255,0.35);text-decoration:none;font-size:0.75rem;transition:color .2s;" onmouseover="this.style.color='#E1306C'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">Instagram</a>
       <a href="https://www.facebook.com/share/1EB2veyAhk/" target="_blank" style="color:rgba(255,255,255,0.35);text-decoration:none;font-size:0.75rem;transition:color .2s;" onmouseover="this.style.color='#1877F2'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">Facebook</a>
     </div>
@@ -1365,7 +1378,7 @@
       <span data-fr>Bonjour 👋 Comment puis-je vous aider ? Réservation d'atelier, renseignements, programme touristes…</span>
       <span data-en>Hello 👋 How can I help? Workshop booking, information, tourist programme…</span>
     </div>
-    <a href="https://wa.me/212702008334?text=Bonjour%2C%20je%20voudrais%20avoir%20plus%20d%27informations%20sur%20vos%20ateliers." target="_blank" class="wa-popup-cta" id="wa-cta">
+    <a href="https://wa.me/212702008334?text=Bonjour%2C%20je%20voudrais%20avoir%20plus%20d%27informations%20sur%20vos%20ateliers." target="_blank" class="wa-popup-cta" id="wa-cta" onclick="gtag_report_conversion(this.href); return false;">
       <span data-fr>💬 Démarrer la conversation</span>
       <span data-en>💬 Start the conversation</span>
     </a>
@@ -1443,6 +1456,10 @@
     waOpen = !waOpen;
     document.getElementById('wa-popup').classList.toggle('open', waOpen);
     document.getElementById('wa-tooltip').style.display = waOpen ? 'none' : '';
+    // Fire conversion uniquement à l'ouverture (pas à la fermeture)
+    if (waOpen && typeof gtag_report_conversion === 'function') {
+      gtag_report_conversion();
+    }
   }
 
   function closeWaPopup() {
