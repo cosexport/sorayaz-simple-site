@@ -750,6 +750,14 @@
     });
     return false;
   }
+
+  // Google Ads – Conversion "Lead formulaire"
+  // Déclenchée uniquement après le retour de succès de FormSubmit.
+  function gtag_report_lead_form_conversion() {
+    gtag('event', 'conversion', {
+      'send_to': 'AW-18470623560/b9trCIGOnY0dEMiyvedE'
+    });
+  }
   </script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18470623560"></script>
@@ -1500,12 +1508,15 @@
       ok.style.display = 'block';
       setTimeout(() => ok.style.display = 'none', 8000);
     }
-    // Nettoie l'URL sans recharger la page.
+    // Enregistre la conversion Google Ads uniquement après un envoi FormSubmit réussi.
+    if (typeof gtag_report_lead_form_conversion === 'function') {
+      gtag_report_lead_form_conversion();
+    }
+
+    // Nettoie l'URL sans recharger la page afin d'éviter un nouveau déclenchement au rafraîchissement.
     if (window.history && window.history.replaceState) {
       window.history.replaceState({}, document.title, window.location.pathname + '#contact');
     }
-    // La conversion Google Ads "Envoi de formulaire" sera ajoutée ici
-    // après création de l'action de conversion dans Google Ads.
   }
 
   // ── SMOOTH SCROLL ──
