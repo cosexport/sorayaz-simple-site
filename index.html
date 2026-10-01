@@ -1248,24 +1248,31 @@
         </div>
       </div>
 
-      <form class="contact-form" onsubmit="handleSubmit(event)">
+      <form class="contact-form" action="https://formsubmit.co/contact@sorayazworkshops.com" method="POST">
+        <!-- FormSubmit : envoi réel vers la boîte Zoho -->
+        <input type="hidden" name="_subject" value="Nouvelle demande — Sorayaz Workshops" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_next" value="https://www.sorayazworkshops.com/?form=success#contact" />
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+
         <div class="form-row">
           <div class="fg">
             <label><span data-fr>Prénom</span><span data-en>First name</span></label>
-            <input type="text" required />
+            <input type="text" name="Prenom" autocomplete="given-name" required />
           </div>
           <div class="fg">
             <label><span data-fr>Nom</span><span data-en>Last name</span></label>
-            <input type="text" required />
+            <input type="text" name="Nom" autocomplete="family-name" required />
           </div>
         </div>
         <div class="fg">
           <label>Email</label>
-          <input type="email" required />
+          <input type="email" name="email" autocomplete="email" required />
         </div>
         <div class="fg">
           <label><span data-fr>Atelier souhaité</span><span data-en>Workshop of interest</span></label>
-          <select id="sel-atelier">
+          <select id="sel-atelier" name="Atelier" required>
             <option value="" data-fr>Choisissez…</option>
             <option value="" data-en>Choose…</option>
             <option data-fr>Broderie artistique</option>
@@ -1294,7 +1301,7 @@
         </div>
         <div class="fg">
           <label><span data-fr>Message</span><span data-en>Message</span></label>
-          <textarea id="msg-area" placeholder=""></textarea>
+          <textarea id="msg-area" name="Message" placeholder="" required></textarea>
         </div>
         <button type="submit" class="btn-primary" style="align-self:flex-start">
           <span data-fr>Envoyer ma demande</span>
@@ -1484,12 +1491,21 @@
   });
 
   // ── FORM ──
-  function handleSubmit(e) {
-    e.preventDefault();
+  // Le formulaire est envoyé réellement via FormSubmit.
+  // Le message de succès n'apparaît qu'après le retour de FormSubmit.
+  const formParams = new URLSearchParams(window.location.search);
+  if (formParams.get('form') === 'success') {
     const ok = document.getElementById('form-success');
-    ok.style.display = 'block';
-    e.target.reset();
-    setTimeout(() => ok.style.display = 'none', 5000);
+    if (ok) {
+      ok.style.display = 'block';
+      setTimeout(() => ok.style.display = 'none', 8000);
+    }
+    // Nettoie l'URL sans recharger la page.
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState({}, document.title, window.location.pathname + '#contact');
+    }
+    // La conversion Google Ads "Envoi de formulaire" sera ajoutée ici
+    // après création de l'action de conversion dans Google Ads.
   }
 
   // ── SMOOTH SCROLL ──
