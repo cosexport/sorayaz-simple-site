@@ -1256,7 +1256,7 @@
         </div>
       </div>
 
-      <form class="contact-form" action="https://formsubmit.co/contact@sorayazworkshops.com" method="POST">
+      <form class="contact-form" action="https://formsubmit.co/contact@sorayazworkshops.com" method="POST" onsubmit="sessionStorage.setItem('sw_form_pending', String(Date.now()))">
         <!-- FormSubmit : envoi réel vers la boîte Zoho -->
         <input type="hidden" name="_subject" value="Nouvelle demande — Sorayaz Workshops" />
         <input type="hidden" name="_template" value="table" />
@@ -1508,9 +1508,17 @@
       ok.style.display = 'block';
       setTimeout(() => ok.style.display = 'none', 8000);
     }
-    // Enregistre la conversion Google Ads uniquement après un envoi FormSubmit réussi.
-    if (typeof gtag_report_lead_form_conversion === 'function') {
-      gtag_report_lead_form_conversion();
+    // Enregistre la conversion Google Ads une seule fois pour CET envoi de formulaire.
+    // Un identifiant temporaire est créé au moment où l'utilisateur soumet le formulaire.
+    // Il est consommé ici après le retour de succès de FormSubmit, ce qui évite les doubles hits.
+    const pendingSubmission = sessionStorage.getItem('sw_form_pending');
+    const lastConvertedSubmission = sessionStorage.getItem('sw_form_last_converted');
+    if (pendingSubmission && pendingSubmission !== lastConvertedSubmission) {
+      if (typeof gtag_report_lead_form_conversion === 'function') {
+        gtag_report_lead_form_conversion();
+      }
+      sessionStorage.setItem('sw_form_last_converted', pendingSubmission);
+      sessionStorage.removeItem('sw_form_pending');
     }
 
     // Nettoie l'URL sans recharger la page afin d'éviter un nouveau déclenchement au rafraîchissement.
